@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        #container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            -webkit-tap-highlight-color:rgba(255,255,255,0);
+            -webkit-text-size-adjust: none;
+            -webkit-backface-visibility:hidden;-webkit-transform-style:preserve-3d;
+            background-position: center;
+            transform: translate3d(0,100%,0);
+            -webkit-transform: translate3d(0,100%,0);
+            background-color: green;
+        }
+        .transition {
+            transition: all 700ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+            -webkit-transition: all 700ms cubic-bezier(0.550, 0.085, 0.000, 0.990);
+        }
+        .check {
+            transform: translate3d(0,0,0);
+            -webkit-transform: translate3d(0,0,0);
+        }
+
+        .pagination {
+            width: 30px;
+            height: auto;
+            position: fixed;
+            top: 50%;
+            right: 5px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 40px 0;
+            z-index: 1;
+            transform: translate(0, -50%);
+        }
+
+        .pagination a {
+            width: 25px;
+            height: 25px;
+            display: block;
+            line-height: 28px;
+            text-align: center;
+            padding-left: 3px;
+        }
+
+        .pagination a:after {
+            content: "";
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            background: rgba(0, 0, 0, .5);
+            -webkit-transition: background .3s ease;
+            -moz-transition: background .3s ease;
+            -ms-transition: background .3s ease;
+            -o-transition: background .3s ease;
+            transition: background .3s ease;
+        }
+
+        .pagination a.active:after {
+            background: rgba(255, 255, 255, .5);
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div class="section transition check">111</div>
+    <div class="section transition">222</div>
+    <div class="section transition">333</div>
+    <div class="section transition">444</div>
+</div>
+<nav class="pagination" id="pagination">
+    <div class="prev-page" onclick="slide.slidePre()">&Lambda;</div>
+    <div class="pagination-page"></div>
+    <div class="next-page" onclick="slide.slideNext()">V</div>
+</nav>
+<script src="./dist/slideFullPage.dev.js"></script>
+<script>
+    renderPagination()
+    var slide = new SlideFullPage()
+    window.slide = slide
+    function renderPagination() {
+        var pagination = document.querySelector('#pagination');
+        var len = document.querySelectorAll('.section').length;
+        var paginationContent = ''
+        // 渲染页码
+        for (var i = 0; i < len; i++) {
+            paginationContent += '<a onclick="slide.setPage(' + i + ')"></a>';
+        }
+        pagination.querySelector('.pagination-page').innerHTML = paginationContent;
+    }
+</script>
+</body>
+</html>
