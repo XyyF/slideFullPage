@@ -2,9 +2,9 @@ import {on, isDom} from '../src/event'
 import _ from 'lodash'
 
 const touchPoint = {
-    startpoint: 0,
-    endpoint: 0
-}
+    stPoint: 0,
+    edPoint: 0
+};
 
 /**
  * 方法
@@ -23,22 +23,22 @@ const methods = {
         }
     },
     touchStart: function (e) {
-        touchPoint.startpoint = e.targetTouches[0].clientY;
+        touchPoint.stPpoint = e.targetTouches[0].clientY;
     },
     touchMove: function (e) {
-        touchPoint.endpoint = e.targetTouches[0].clientY;
+        touchPoint.edPoint = e.targetTouches[0].clientY;
     },
-    touchEnd: function (e) {
-        if (touchPoint.endpoint === 0) {
+    touchEnd: function () {
+        if (touchPoint.edPoint === 0) {
             return false;
         }
-        if ((touchPoint.endpoint - touchPoint.startpoint) < -60) {
+        if ((touchPoint.edPoint - touchPoint.stPpoint) < -60) {
             this.page++
-        } else if ((touchPoint.endpoint - touchPoint.startpoint) > 60) {
+        } else if ((touchPoint.edPoint - touchPoint.stPpoint) > 60) {
             this.page--
         }
-        touchPoint.startpoint = 0;
-        touchPoint.endpoint = 0;
+        touchPoint.stPpoint = 0;
+        touchPoint.edPoint = 0;
     },
     goAnimation: function goAnimation(index) {
         this.sections[index].style.display = 'none';
@@ -103,7 +103,7 @@ function SlideFullPage(options = {}) {
     this.options = Object.assign({}, default_options, options);
     // 初始化this
     this.container = isDom(this.options.containerEl) ? this.options.containerEl : document.querySelector(this.options.containerEl);
-    this.sections = isDom(this.options.sectionEl) ? this.options.sectionEl : document.querySelectorAll(this.options.sectionEl);
+    this.sections = isDom(this.options.sectionEl) ? this.options.sectionEl : this.container.querySelectorAll(this.options.sectionEl);
     this.count = this.sections.length; // 总页数
 
     // 闭包变量
@@ -165,4 +165,4 @@ SlideFullPage.prototype.setPage = function setPage(index) {
     this.page = index
 };
 
-window.SlideFullPage = SlideFullPage;
+export default SlideFullPage;
