@@ -5,7 +5,9 @@ module.exports = {
     entry: './slideFullPage.js',
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'slideFullPage.min.js'
+        filename: 'slideFullPage.min.js',
+        libraryTarget: 'var',
+        library: 'SlideFullPage',
     },
     module: {
         loaders: [

@@ -2,10 +2,10 @@
   "name": "slidefullpage",
   "version": "1.0.5",
   "description": "",
-  "main": "dist/slideFullPage.min.js",
+  "main": "dist/slideFullPage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
+    "build": "babel src --out-dir dist --ignore test.js --source-maps & webpack --config webpack.config.js --progress --profile --colors",
     "dev": "webpack-dev-server --config webpack.dev.config.js --host 0.0.0.0 --progress --profile --colors"
   },
   "homepage": "https://github.com/XyyF/slideFullPage",
