@@ -165,4 +165,4 @@ SlideFullPage.prototype.setPage = function setPage(index) {
     this.page = index
 };
 
-module.exports = SlideFullPage;
+export default SlideFullPage;
