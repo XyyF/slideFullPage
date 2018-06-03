@@ -1,14 +1,14 @@
 {
   "name": "slidefullpage",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "slide_full_page.js",
+  "main": "dist/slideFullPage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js --host 0.0.0.0 --progress --profile --colors"
   },
-  "homepage": "http://XyyF.github.io/slideFullPage/",
+  "homepage": "https://github.com/XyyF/slideFullPage",
   "author": "",
   "license": "ISC",
   "devDependencies": {
