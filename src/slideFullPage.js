@@ -1,4 +1,4 @@
-import {on, isDom} from '../src/event'
+import {on, off, isDom} from '../src/event'
 import _ from 'lodash'
 
 const touchPoint = {
@@ -14,21 +14,21 @@ const touchPoint = {
  * @param methods.slideTo 滚动行为
  */
 const methods = {
-    wheelFunc: function wheelFunc(e) {
+    wheelFunc: _.throttle(function wheelFunc(e) {
         e = e || window.event;
         if (e.wheelDeltaY < 0 || e.wheelDelta < 0 || e.detail) {
             this.slideNext()
         } else {
             this.slidePre()
         }
-    },
-    touchStart: function (e) {
+    }, 700),
+    touchStart: _.throttle(function (e) {
         touchPoint.stPpoint = e.targetTouches[0].clientY;
-    },
-    touchMove: function (e) {
+    }, 700),
+    touchMove: _.throttle(function (e) {
         touchPoint.edPoint = e.targetTouches[0].clientY;
-    },
-    touchEnd: function () {
+    }, 700),
+    touchEnd: _.throttle(function () {
         if (touchPoint.edPoint === 0) {
             return false;
         }
@@ -39,7 +39,7 @@ const methods = {
         }
         touchPoint.stPpoint = 0;
         touchPoint.edPoint = 0;
-    },
+    }, 700),
     goAnimation: function goAnimation(index) {
         this.sections[index].style.display = 'none';
         const that = this;
@@ -50,17 +50,40 @@ const methods = {
     },
     initEvent: function initEvent() {
         // pc滚轮事件
+        const wheelFunc = methods.wheelFunc.bind(this)
         if (this.options.isPc) {
-            on(document, 'DOMMouseScroll', _.throttle(methods.wheelFunc.bind(this), 700));
-            on(document, 'mousewheel', _.throttle(methods.wheelFunc.bind(this), 700));
+            on(this.container, 'DOMMouseScroll', wheelFunc);
+            on(this.container, 'mousewheel', wheelFunc);
         }
 
         // 移动端滑动事件
+        const touchStart = methods.touchStart.bind(this);
+        const touchMove = methods.touchMove.bind(this);
+        const touchEnd = methods.touchEnd.bind(this);
         if (this.options.isMobile) {
-            on(document, 'touchstart', _.throttle(methods.touchStart.bind(this), 700));
-            on(document, 'touchmove', _.throttle(methods.touchMove.bind(this), 700));
-            on(document, 'touchend', _.throttle(methods.touchEnd.bind(this), 700));
+            on(this.container, 'touchstart', touchStart);
+            on(this.container, 'touchmove', touchMove);
+            on(this.container, 'touchend', touchEnd);
         }
+
+        /**
+         * 取消滚动事件的监听
+         * 因为bind缘故，放在这里定义
+         */
+        SlideFullPage.prototype.destroy = function destroy() {
+            // 滚轮事件
+            if (this.options.isPc) {
+                off(this.container, 'DOMMouseScroll', wheelFunc);
+                off(this.container, 'mousewheel', wheelFunc);
+            }
+
+            // 滑动事件
+            if (this.options.isMobile) {
+                off(this.container, 'touchstart', touchStart);
+                off(this.container, 'touchmove', touchMove);
+                off(this.container, 'touchend', touchEnd);
+            }
+        };
     },
     slideTo: function slideTo(page) {
         if (page < 0 || page >= this.count || this.page === page) {
