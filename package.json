@@ -1,6 +1,6 @@
 {
   "name": "slidefullpage",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "",
   "main": "dist/slideFullPage.js",
   "scripts": {

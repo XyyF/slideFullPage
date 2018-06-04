@@ -95,7 +95,7 @@ const methods = {
                 methods.goAnimation.call(this, i);
                 this.sections[i].style.transform = 'translate3d(0, 100%, 0)';
             }
-        } else {
+        } else if (page > this.page) {
             this.sections[this.page].style.transform = 'translate3d(0, -100%, 0)';
             for (let i = this.page + 1; i < page; i++) {
                 methods.goAnimation.call(this, i);
@@ -130,7 +130,7 @@ function SlideFullPage(options = {}) {
     this.count = this.sections.length; // 总页数
 
     // 闭包变量
-    let prePage = 0;
+    let prePage = null;
 
     // 代表当前页码，以0开始--滚动开始的入口
     Object.defineProperty(this, 'page', {
