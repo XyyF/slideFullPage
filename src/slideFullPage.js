@@ -1,6 +1,9 @@
 import {on, off, isDom} from '../src/event'
 import _ from 'lodash'
 
+// 闭包变量
+let prePage = null;
+
 const touchPoint = {
     stPoint: 0,
     edPoint: 0
@@ -129,9 +132,6 @@ function SlideFullPage(options = {}) {
     this.sections = isDom(this.options.sectionEl) ? this.options.sectionEl : this.container.querySelectorAll(this.options.sectionEl);
     this.count = this.sections.length; // 总页数
 
-    // 闭包变量
-    let prePage = null;
-
     // 代表当前页码，以0开始--滚动开始的入口
     Object.defineProperty(this, 'page', {
         set(val) {
@@ -161,20 +161,14 @@ function SlideFullPage(options = {}) {
  * 向下滚动1页
  */
 SlideFullPage.prototype.slideNext = function slideNext() {
-    if (this.page >= this.count - 1) {
-        return false
-    }
-    this.page++
+    return this.page < (this.count - 1) && this.page++
 };
 
 /**
  * 向上滚动1页
  */
 SlideFullPage.prototype.slidePre = function slidePre() {
-    if (this.page <= 0) {
-        return false
-    }
-    this.page--
+    return this.page > 0 && this.page--
 };
 
 /**
@@ -182,10 +176,7 @@ SlideFullPage.prototype.slidePre = function slidePre() {
  * @param {number} index 页码下标，从0开始
  */
 SlideFullPage.prototype.setPage = function setPage(index) {
-    if (index < 0 || index > this.count) {
-        return false
-    }
-    this.page = index
+    return (index >= 0) && (index <= this.count) && (this.page = index)
 };
 
 export default SlideFullPage;
