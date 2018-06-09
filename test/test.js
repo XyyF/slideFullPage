@@ -56,7 +56,7 @@ const methods = {
         }, 200)
     },
     initEvent: function initEvent() {
-        this.sections[this.page - 1].style.transform = 'translate3d(0, 0, 0)';
+        this.sections[this.page - 1].style.transform = 'translate(0, 0)';
         // pc滚轮事件
         const wheelFunc = methods.wheelFunc.bind(this);
         if (this.options.isPc) {
@@ -98,19 +98,19 @@ const methods = {
     slideTo: function slideTo(page) {
         this.isScrolling = true
         if (page < this.page) {
-            this.sections[this.page - 1].style.transform = 'translate3d(0, 100%, 0)';
+            this.sections[this.page - 1].style.transform = 'translate(0, 100%)';
             for (let i = this.page - 1; i > page; i--) {
                 methods.goAnimation.call(this, i - 1);
-                this.sections[i - 1].style.transform = 'translate3d(0, 100%, 0)';
+                this.sections[i - 1].style.transform = 'translate(0, 100%)';
             }
-            this.sections[page - 1].style.transform = 'translate3d(0, 0, 0)';
+            this.sections[page - 1].style.transform = 'translate(0, 0)';
         } else if (page > this.page) {
-            this.sections[this.page - 1].style.transform = 'translate3d(0, -100%, 0)';
+            this.sections[this.page - 1].style.transform = 'translate(0, -100%)';
             for (let i = this.page + 1; i < page; i++) {
                 methods.goAnimation.call(this, i - 1);
-                this.sections[i - 1].style.transform = 'translate3d(0, -100%, 0)';
+                this.sections[i - 1].style.transform = 'translate(0, -100%)';
             }
-            this.sections[page - 1].style.transform = 'translate3d(0, 0, 0)';
+            this.sections[page - 1].style.transform = 'translate(0, 0)';
         }
         return true
     }
@@ -188,7 +188,6 @@ function SlideFullPage(options = {}) {
     });
     // 初始化页码
     prePage = this.options.initPage;
-    // this.page = this.options.initPage;
     // 初始化事件
     methods.initEvent.call(this)
 }
